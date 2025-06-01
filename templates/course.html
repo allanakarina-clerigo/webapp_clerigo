@@ -68,9 +68,9 @@
             {% for row in course_list%}
 
             <tr>
-                <td>{{row.0}}</td>
-                <td>{{row.1}}</td>
-                <td>{{row.2}}</td>
+                <td>{{row.course_code}}</td>
+                <td>{{row.course_name}}</td>
+                <td>{{row.college}}</td>
 
                 <td>
                     <a href="/update/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
@@ -96,19 +96,19 @@
 
            <div class="modal-body">
 
-               <form action="{{ url_for('course.update_course') }}" method="POST">
+               <form action="{{ url_for('courses.update_course') }}" method="POST">
 
                    <div class="form-group">
 
                        <label>Course Code</label>
-                       <input readonly type="text" class="form-control" name="course_code" value="{{row.0}}">
+                       <input readonly type="text" class="form-control" name="course_code" value="{{row.course_code}}">
 
                    </div>
 
                     <div class="form-group">
 
                         <label>Course Name</label>
-                        <input type="text" class="form-control" name="course_name" value="{{row.1}}">
+                        <input type="text" class="form-control" name="course_name" value="{{row.course_name}}" required="1">
 
                     </div>
 
@@ -118,7 +118,7 @@
                           <select class="custom-select" id="college" name="college" type="text" required>
                             <option selected="">Select a College</option>
                             {%for row in college%}
-                            <option>{{row.0}}</option>
+                            <option>{{row.college_code}}</option>
                             {%endfor%}
                           </select>
                         </div>
@@ -170,7 +170,7 @@
 
            <div class="modal-body">
 
-               <form action="{{url_for('course.add_course')}}" method="POST">
+               <form action="{{url_for('courses.add_course')}}" method="POST">
 
                    <div class="form-group">
 
@@ -190,7 +190,7 @@
                           <select class="custom-select" id="college" name="college" type="text" required>
                             <option selected="">Select a College</option>
                             {%for row in college%}
-                            <option>{{row.0}}</option>
+                            <option>{{row.college_code}}</option>
                             {%endfor%}
                           </select>
                         </div>

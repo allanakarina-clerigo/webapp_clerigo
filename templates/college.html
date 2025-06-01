@@ -67,8 +67,8 @@
             {% for row in college_list%}
 
             <tr>
-                <td>{{row.0}}</td>
-                <td>{{row.1}}</td>
+                <td>{{row.college_code}}</td>
+                <td>{{row.college_name}}</td>
 
                 <td>
                     <a href="/update/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
@@ -93,19 +93,19 @@
 
        <div class="modal-body">
 
-           <form action="{{ url_for('college.update_college') }}" method="POST">
+           <form action="{{ url_for('colleges.update_college') }}" method="POST">
 
                <div class="form-group">
 
                    <label>College Code</label>
-                   <input readonly type="text" class="form-control" name="college_code" value="{{row.0}}">
+                   <input readonly type="text" class="form-control" name="college_code" value="{{row.college_code}}">
 
                </div>
 
                <div class="form-group">
 
                    <label>College Name</label>
-                   <input type="text" class="form-control" name="college_name" value="{{row.1}}">
+                   <input type="text" class="form-control" name="college_name" value="{{row.college_name}}" required="1">
 
                </div>
 
@@ -155,7 +155,7 @@
 
        <div class="modal-body">
 
-           <form action="{{url_for('college.add_college')}}" method="POST">
+           <form action="{{url_for('colleges.add_college')}}" method="POST">
 
                <div class="form-group">
 

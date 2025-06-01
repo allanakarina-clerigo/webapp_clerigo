@@ -23,7 +23,7 @@
 
     <div class="col md-12">
 
-        <form action="/searchstudent" method="post">
+        <form action="{{ url_for('students.searchstudent') }}" method="post">
         <input class="form-control mb-4" id="tableSearch" name="tableSearch" type="text" placeholder="Search Student...">
         </form>
         <h2>Student List</h2>
@@ -72,18 +72,17 @@
 
                  {% for row in student_list %}
             <tr>
-                <td>{{row.0}}</td>
-                <td><img src={{row.1}} width="400" 
-                    height="500" ></td>
-                <td>{{row.2}}</td>
-                <td>{{row.3}}</td>
-                <td>{{row.6}}</td>
-				<td>{{row.4}}</td>
-				<td>{{row.5}}</td>
+                <td>{{row.stud_id}}</td>
+                <td><img src="{{row.photo_link}}"></td>
+                <td>{{row.fname}}</td>
+                <td>{{row.lname}}</td>
+                <td>{{row.course_code}}</td>
+                <td>{{row.year_lvl}}</td>
+                <td>{{row.gender}}</td>
                 
                 <td>
                     <a href="/update/{{row.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
-                    <a href="/delete/student/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure For Delete?')">Delete</a>
+                    <a href="{{ url_for('students.delete', stud_id=row.stud_id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure For Delete?')">Delete</a>
 
                 </td>
 
@@ -107,12 +106,12 @@
 
         <div class="modal-body">
 
-            <form action="{{ url_for('student.update') }}" method="POST"  enctype="multipart/form-data">
+            <form action="{{ url_for('students.update') }}" method="POST"  enctype="multipart/form-data">
 
                <div class="form-group">
 
                     <label>Student ID:</label>
-                    <input readonly type="text" class="form-control" placeholder="e.g. 0000-0000"  required class="form-control" name="stud_id"  value="{{row.0}} ">
+                    <input readonly type="text" class="form-control" placeholder="e.g. 0000-0000"  required class="form-control" name="stud_id"  value="{{row.stud_id}} ">
 
                </div> 
 
@@ -125,7 +124,7 @@
 
 
                   <label>Firstname:</label>
-                  <input type="text" class="form-control" name="fname" value="{{row.2}}">
+                  <input type="text" class="form-control" name="fname" value="{{row.fname}}">
 
 
                </div>
@@ -135,7 +134,7 @@
 
 
                   <label>Lastname:</label>
-                  <input type="text" class="form-control" name="lname" value="{{row.3}}">
+                  <input type="text" class="form-control" name="lname" value="{{row.lname}}">
 
 
                </div>
@@ -143,12 +142,14 @@
 			   <div class="form-group">
                 <label>Course:</label> 
                 <div class="input-group mb-3" > 
-                  <select class="custom-select" id="course_code" name="course_code" type="text" required>
-                    <option selected="">Select a Course</option>
-                    {%for row in course%}
-                    <option value="{{row.0}}">{{row.0}}</option>
-                    {%endfor%}
-                  </select>
+                    <select class="custom-select" name="course_code">
+                        {% for c in course %}
+                        <option value="{{c.course_code}}" 
+                            {% if c.course_code == row.course_code %}selected{% endif %}>
+                            {{c.course_code}}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </div>
               </div>
 
@@ -156,7 +157,7 @@
 
 
                   <label>Year:</label>
-                  <input type="text" class="form-control" name="year_lvl" value="{{row.4}}">
+                  <input type="text" class="form-control" name="year_lvl" value="{{row.year_lvl}}">
 
 
                </div>
@@ -165,7 +166,7 @@
 
 
                   <label>Gender:</label>
-                  <input type="text" class="form-control" name="gender" value="{{row.5}}">
+                  <input type="text" class="form-control" name="gender" value="{{row.gender}}">
 
 
                </div>
@@ -228,7 +229,7 @@
 
            <div class="modal-body">
 
-               <form action="{{url_for('student.insert')}}" enctype="multipart/form-data" method="POST">
+               <form action="{{url_for('students.insert')}}" enctype="multipart/form-data" method="POST">
 
                    <div class="form-group">
 
@@ -262,7 +263,7 @@
                       <select class="custom-select" id="course" name="course" type="text" required>
                         <option selected="">Select a Course</option>
                         {%for row in course%}
-                        <option value="{{row.0}}">{{row.0}}</option>
+                        <option value="{{row.course_code}}">{{row.course_code}}</option>
                         {%endfor%}
                       </select>
                     </div>
